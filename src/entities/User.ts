@@ -16,8 +16,19 @@ import { Comment, Issue, Project } from '.';
 import { Length, IsNotEmpty } from "class-validator";
 import * as bcrypt from "bcryptjs";
 
+import is from 'utils/validation';
+
+
 @Entity()
 class User extends BaseEntity {
+
+  static validations = {
+    username: [is.required()],
+    password: [is.required()],
+    name: [is.required()],
+    email: [is.required(), is.email(), is.maxLength(200)],
+    role: [is.required(), is.oneOf(Object.values(RoleType))],
+  };
 
     @PrimaryGeneratedColumn()
     id: number;

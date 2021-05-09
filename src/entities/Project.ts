@@ -8,13 +8,19 @@ import {
   OneToMany,
 } from 'typeorm';
 
-
+import is from 'utils/validation';
 import { ProjectCategory } from 'constants/projects';
 import { Issue, User } from '.';
 
 @Entity()
 class Project extends BaseEntity {
 
+  static validations = {
+    name: [is.required(), is.maxLength(100)],
+    url: is.url(),
+    category: [is.required(), is.oneOf(Object.values(ProjectCategory))],
+  };
+  
     @PrimaryGeneratedColumn()
     id: number;
 
